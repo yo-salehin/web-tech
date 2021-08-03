@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GITHUB TOP USERS</title>
+    <style>
+          body {
+                background-color:lightsteelblue;
+          }
+          h1{
+                border-style: inset;
+                background-color:slategray;
+
+
+          }
+          button{
+                 border-style: double;
+                 background-color:orange;
+          }
+          section{
+
+          }
+          div{
+                background-color:honeydew;
+                border-style: outset;
+
+          }
+          div,img{
+                border-style: outset;
+
+          }
+          div,ul,li{
+            border-style: outset;
+            
+
+          }
+    </style> 
+    
+   
+</head>
+<body>
+    <button  id="pull">LOAD GITHUB USERS</button>
+    <section id="show"></section>
+    <h1>USERS DETAILS</h1>
+    <script>
+        document.getElementById('pull').addEventListener('click' ,getusers);
+
+
+        function getusers(){
+            var req = new XMLHttpRequest();
+            req.open('GET' ,'https://api.github.com/users');
+
+            req.onload = function(){
+                if(req.status == 200){
+                    var people = JSON.parse(req.responseText);
+
+                    var login = people.login;
+                    var id = people.id ;
+                    var repos_url = people.repos_url;
+                    var avatar_url = people.avatar_url;
+                    var gists_url = people.gists_url;
+                    var events_url = people.events_url ;
+                    
+
+                    var output=" ";
+                    for(var i in people){
+                    output +='<div>'+
+                    '<img src='+people[i].avatar_url +'width="100" height="100">' +
+                    '<ul>' +              
+                    '<li>ID:'+'"'+ people[i].id+'"'+'</li>' +   
+                    '<li>Login:'+'"'+ people[i].login +'"'+'</li>' +  
+                    '<li>Repos_url:'+'"'+ people[i].repos_url +'"'+'</li>'+
+                    '<li>Events_url:'+'"'+people[i].events_url+'"'+'</li>'+
+                    '<li>Gists_url:'+'"'+people[i].gists_url +'"'+'</li>'+
+                    '</ul>' +   
+                    '</div>';
+                    document.getElementById('show').innerHTML = output;
+                } 
+               } 
+            }
+            req.send();
+        }
+          
+        </script>
+</body>
+</html>
